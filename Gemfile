@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem "haml"
 gem 'quiet_assets', group: :development
 gem 'better_errors', group: :development
 gem 'binding_of_caller', group: :development

@@ -1,6 +1,11 @@
 source 'https://rubygems.org'
 
-
+gem 'quiet_assets', group: :development
+gem 'better_errors', group: :development
+gem 'binding_of_caller', group: :development
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
+gem 'devise'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
 # Use sqlite3 as the database for Active Record

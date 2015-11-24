@@ -1,0 +1,22 @@
+%p{:id => "notice"}= notice
+
+%br
+
+%strong Other students in this course
+%br
+
+%table{:class => "container-fluid table table-bordered"}
+  %thead
+    %tr
+      %td User Name
+  %tbody
+    - @user_courses.each do |user_course|
+      - if user_course.course_id == @course.id
+        - @users.each do |user|
+          - if user_course.user_id == user.id
+            %tr
+              %td= user.id
+
+= link_to 'Edit', edit_course_path(@course)
+|
+= link_to 'Back', courses_path

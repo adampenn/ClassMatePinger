@@ -1,0 +1,55 @@
+%p{:id => "notice"}= notice
+
+- coursesUsersIn = Array.new
+- coursesUsersNotIn = Array.new
+
+%strong Courses You're in:
+%br
+%table{:class => "container-fluid table table-bordered"}
+  %thead
+    %tr
+      %td Course name:
+      %td Course number:
+      %td School:
+  
+  %tbody
+    - @user_courses.each do |user_course|
+      - @courses.each do |course|
+        - if user_course.user_id == current_user.id && user_course.course_id == course.id
+          -coursesUsersIn.push(course)
+          %tr
+            %td= link_to course.name, course
+            %td= course.number
+            - @schools.each do |school|
+              - if course.school_id == school.id
+                %td= school.name
+
+%br
+- @courses.each do |course|
+  - coursesUsersNotIn.push(course)
+
+-coursesUsersNotIn.each do
+  - coursesUsersIn.each do |cui|
+    - index = coursesUsersNotIn.index(cui)
+    - if index
+      - coursesUsersNotIn.delete_at(index)
+
+%strong Other courses in the University:
+%br
+%table{:class => "container-fluid table table-bordered"}
+  %thead
+    %tr
+      %td Course name:
+      %td Course number:
+      %td School:
+
+  %tbody
+    - coursesUsersNotIn.each do |course|
+      %tr
+        %td= link_to course.name, course
+        %td= course.number
+        - @schools.each do |school|
+          - if course.school_id == school.id && school.domain == current_user.domain
+            %td= school.name
+
+= link_to 'School Page', schools_url

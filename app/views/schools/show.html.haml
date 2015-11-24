@@ -1,0 +1,29 @@
+%p{:id => "notice"}
+  = notice
+
+%p
+  %strong Name:
+  = @school.name
+  = @school.id
+
+- @courses.each do |course|
+  - if course.school_id == @school.id
+    = course.name
+    = link_to 'Edit', edit_course_path(course)
+
+%p
+  %strong New Course:
+  = form_for @course do |f|
+    .field
+      = f.label :name
+      %b
+      = f.text_field :name
+    .field
+      = f.label :number
+      %b
+      = f.number_field :number
+    = f.hidden_field :school_id, :value => @school.id
+    .action
+      = f.submit
+
+= link_to 'Back', schools_path

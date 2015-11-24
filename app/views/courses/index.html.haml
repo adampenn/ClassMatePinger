@@ -15,7 +15,7 @@
   %tbody
     - @user_courses.each do |user_course|
       - @courses.each do |course|
-        - if user_course.user_id == current_user.id && user_course.course_id == course.id
+        - if user_course.user_id == current_user.id && user_course.course_id == course.id 
           -coursesUsersIn.push(course)
           %tr
             %td= link_to course.name, course
@@ -26,7 +26,9 @@
 
 %br
 - @courses.each do |course|
-  - coursesUsersNotIn.push(course)
+  - @schools.each do |school|
+    - if course.school_id == school.id && school.domain == current_user.domain
+      - coursesUsersNotIn.push(course)
 
 -coursesUsersNotIn.each do
   - coursesUsersIn.each do |cui|

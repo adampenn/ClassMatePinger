@@ -36,7 +36,7 @@ users = User.create(
   ]
 )
 
-courses = Course.create {
+courses = Course.create (
   [
     { name: 'Operating Systems', number: 340, school_id: 1 },
     { name: 'Software Engineering', number: 430, school_id: 1 },
@@ -61,27 +61,39 @@ courses = Course.create {
     { name: 'Web Development', number: 465, school_id: 4 },
     { name: 'Artificial Intelegece', number: 580, school_id: 4 },
     { name: 'Religious Studies', number: 332, school_id: 4 },
-    { name: 'Computers Impact on Society', number: 301, school_id: 4 },
-  ]
-}
-
-user_courses = UserCourse.create(
-  [
-    { 
+    { name: 'Computers Impact on Society', number: 301, school_id: 4 }
   ]
 )
 
+schools = School.create (
+  [
+    { name: 'CSU Chico', domain: 'mail.csuchico.edu' },
+    { name: 'UC Davis', domain: 'ucdavis.edu' },
+    { name: 'Butte College', domain: 'student.butte.edu' },
+    { name: 'Berkley', domain: 'berkley.edu' }
+  ]
+)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+courses.each do |course|
+  user_indexes = Array.new
+  size = 3 + rand(6)
+  for i in 0..size
+    correctDomain = false
+    while(!correctDomain)
+      user_indexes[i] = (rand 25) + 1 
+      users.each do |user|
+        if user.id == user_indexes[i]
+          schools.each do |school|
+            if user.domain == school.domain
+              correctDomain = true
+            end
+          end
+        end
+      end
+    end
+  end
+  user_indexes.uniq!
+  user_indexes.each do |user_id|
+    UserCourse.create(user_id: user_id, course_id: course.id)
+  end
+end

@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
   def index
     @courses = Course.all
     @user_courses = UserCourse.all
-    @users = User.all
+    @users = coursesIn
     @schools = School.all
   end
 
@@ -15,7 +15,7 @@ class CoursesController < ApplicationController
   def show
     @courses = Course.all
     @user_courses = UserCourse.all
-    @users = User.all
+    @users = coursesIn
   end
 
   # GET /courses/new
@@ -76,5 +76,22 @@ class CoursesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def course_params
       params.require(:course).permit(:name, :number, :school_id)
+    end
+
+    def coursesIn
+      users = User.all
+      userCourses = UserCourse.all
+      courses = Course.all
+      coursesUsersIn = Array.new
+      userCourses.each do |userCourse|
+        courses.each do |course|
+          users.each do |user|
+            if course.id == userCourse.course_id && user.id == userCourse.user_id
+              user.coursesIn.push(course)
+            end
+          end
+        end
+      end
+      return users
     end
 end

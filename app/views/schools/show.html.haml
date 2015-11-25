@@ -1,5 +1,7 @@
-%p{:id => "notice"}
-  = notice
+%ul{:class => "nav nav-tabs"}
+  %li= link_to 'courses', courses_url
+  %li{:class => "active"}= link_to 'Schools', schools_url 
+  %li= link_to "Sign out", destroy_user_session_path, method: :delete
 
 %p
   %strong Name:

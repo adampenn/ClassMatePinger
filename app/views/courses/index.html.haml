@@ -1,7 +1,19 @@
-%p{:id => "notice"}= notice
+%ul.nav.nav-tabs
+  %li.active
+    = link_to courses_url, :data => {:toggle => "dropdown"} do
+      Courses
+      %span.caret
+    %ul.dropdown-menu
+      - @users.each do |user|
+        - if user.id  == current_user.id
+          - user.coursesIn.each do |courseIn|
+            %li= link_to courseIn.name, courseIn
+  %li= link_to 'Schools', schools_url 
+  %li= link_to "Sign out", destroy_user_session_path, method: :delete
 
 - coursesUsersIn = Array.new
 - coursesUsersNotIn = Array.new
+
 
 %strong Courses You're in:
 %br
@@ -23,18 +35,20 @@
             - @schools.each do |school|
               - if course.school_id == school.id
                 %td= school.name
-
 %br
 - @courses.each do |course|
   - @schools.each do |school|
     - if course.school_id == school.id && school.domain == current_user.domain
       - coursesUsersNotIn.push(course)
 
--coursesUsersNotIn.each do
+- coursesUsersNotIn.each do
   - coursesUsersIn.each do |cui|
     - index = coursesUsersNotIn.index(cui)
     - if index
       - coursesUsersNotIn.delete_at(index)
+- @users.each do |user|
+  - if user.id == current_user.id
+    - user.coursesIn = coursesUsersIn
 
 %strong Other courses in the University:
 %br

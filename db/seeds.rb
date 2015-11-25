@@ -1,10 +1,3 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
 users = User.create(
   [
     { email: 'a@mail.csuchico.edu', name: "Mr. Aardvark", password: "a", password_confirmation: "a"},
@@ -75,25 +68,22 @@ schools = School.create (
 )
 
 courses.each do |course|
-  user_indexes = Array.new
-  size = 3 + rand(6)
+  user_ids = Array.new
+  size = 1 + rand(1)
   for i in 0..size
     correctDomain = false
     while(!correctDomain)
-      user_indexes[i] = (rand 25) + 1 
-      users.each do |user|
-        if user.id == user_indexes[i]
-          schools.each do |school|
-            if user.domain == school.domain
-              correctDomain = true
-            end
-          end
+      user_ids[i] = rand(25) + 1
+      schools.each do |school|
+        domain = users[user_ids[i]].email.split("@").last
+        if school.id == course.school_id && domain == school.domain
+          correctDomain = true
         end
       end
     end
   end
-  user_indexes.uniq!
-  user_indexes.each do |user_id|
+  user_ids.uniq!
+  user_ids.each do |user_id|
     UserCourse.create(user_id: user_id, course_id: course.id)
   end
 end

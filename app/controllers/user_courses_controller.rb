@@ -28,7 +28,7 @@ class UserCoursesController < ApplicationController
 
     respond_to do |format|
       if @user_course.save
-        format.html { redirect_to @user_course, notice: 'User course was successfully created.' }
+        format.html { redirect_to course_path(@user_course.course_id), notice: 'User course was successfully created.' }
         format.json { render :show, status: :created, location: @user_course }
       else
         format.html { render :new }
@@ -56,7 +56,7 @@ class UserCoursesController < ApplicationController
   def destroy
     @user_course.destroy
     respond_to do |format|
-      format.html { redirect_to user_courses_url, notice: 'User course was successfully destroyed.' }
+      format.html { redirect_to courses_url, notice: 'User course was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

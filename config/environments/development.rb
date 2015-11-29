@@ -1,7 +1,10 @@
 Rails.application.configure do
  
   BetterErrors::Middleware.allow_ip! "0.0.0.0/0" 
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+  config.action_mailer.default_url_options = { :host => '162.243.158.152:3000' }
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_options = {from: 'classmatepinger@gmail.com'}
 
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -42,4 +45,4 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-end
+  end

@@ -7,11 +7,18 @@
   %strong Name:
   = @school.name
   = @school.id
-
-- @courses.each do |course|
-  - if course.school_id == @school.id
-    = course.name
-    = link_to 'Edit', edit_course_path(course)
+%table.table.table-bordered.container-fluid
+  %thead 
+    %tr
+      %td Name
+      %td{:colspan => "2"} Option
+  %tbody
+    - @courses.each do |course|
+      - if course.school_id == @school.id
+        %tr
+          %td= course.name
+          %td= link_to 'Edit', edit_course_path(course)
+          %td= link_to 'Destroy', course, method: :delete, data: { confirm: '    Are you sure?' }
 
 %p
   %strong New Course:

@@ -68,6 +68,7 @@ schools = School.create (
 )
 
 courses.each do |course|
+  puts "FIX ME"
   user_ids = Array.new
   size = 1 + rand(1)
   for i in 0..size

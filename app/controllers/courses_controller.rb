@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
   def index
     @courses = Course.all
     @user_courses = UserCourse.all
-    @users = coursesIn
+    @users = coursesNotIn
     @schools = School.all
   end
 
@@ -15,7 +15,8 @@ class CoursesController < ApplicationController
   def show
     @courses = Course.all
     @user_courses = UserCourse.all
-    @users = coursesIn
+    @users = coursesNotIn
+    @user_course = UserCourse.new
   end
 
   # GET /courses/new
@@ -34,7 +35,7 @@ class CoursesController < ApplicationController
 
     respond_to do |format|
       if @course.save
-        format.html { redirect_to @course, notice: 'Course was successfully created.' }
+        format.html { redirect_to schools_url(@course.school_id), notice: 'Course was successfully created.' }
         format.json { render :show, status: :created, location: @course }
       else
         format.html { render :new }
@@ -62,7 +63,7 @@ class CoursesController < ApplicationController
   def destroy
     @course.destroy
     respond_to do |format|
-      format.html { redirect_to courses_url, notice: 'Course was successfully destroyed.' }
+      format.html { redirect_to schools_url(@course.school_id), notice: 'Course was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -82,12 +83,28 @@ class CoursesController < ApplicationController
       users = User.all
       userCourses = UserCourse.all
       courses = Course.all
-      coursesUsersIn = Array.new
       userCourses.each do |userCourse|
         courses.each do |course|
           users.each do |user|
             if course.id == userCourse.course_id && user.id == userCourse.user_id
               user.coursesIn.push(course)
+            end
+          end
+        end
+      end
+      return users
+    end
+    def coursesNotIn
+      courses = Course.all
+      users = coursesIn
+      schools = School.all
+      users.each do |user|
+        schools.each do |school|
+          if user.domain == school.domain
+            courses.each do |course|
+              if course.school_id == school.id && !user.coursesIn.include?(course)
+                user.coursesNotIn.push(course)
+              end
             end
           end
         end

@@ -1,0 +1,15 @@
+body {
+    position: relative;
+    left: 50px;
+    right: 50px;
+}
+.opaque-back {
+    background-color: white;
+    opacity: 0.9;
+}
+.background {
+    background-image: url('/images/Berkeley.jpg');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center; 
+}

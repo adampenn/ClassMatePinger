@@ -29,9 +29,10 @@ class CoursesController < ApplicationController
   end
   
   def email_user(to, course)
-    UserNotifier.ping_user(to).deliver
-    redirect_to(course)
+    sendmail( :to => to.email,
+    :subject => 'You\'ve been pinged') 
   end
+  helper_method :email_user
 
   # POST /courses
   # POST /courses.json

@@ -1,67 +1,65 @@
-:javascript
-  jQuery.backstretch("../../../public/images/Berkeley.jpg")
-%ul.nav.nav-tabs
-  %li.dropdown.active
-    =link_to "Courses", courses_url
-    %ul#menu1.dropdown-menu
-      %li
-        %a{:href => "#"}
-          Courses Your In
-        %ul.dropdown-menu.sub-menu
-          - @users.each do |user|
-            - if user.id == current_user.id
-              - user.coursesIn.each do |courseIn|
-                %li= link_to courseIn.name, courseIn
-      %li.divider
-      %li
-        %a{:href => "#"}
-          Other Courses
-        %ul.dropdown-menu.sub-menu
-          - @users.each do |user|
-            - if user.id == current_user.id
-              - user.coursesNotIn.each do |courseNotIn|
-                %li= link_to courseNotIn.name, courseNotIn
+%body
+  %div.opaque-back.container-fluid
+    %ul.nav.nav-tabs
+      %li.dropdown.active
+        =link_to "Courses", courses_url
+        %ul#menu1.dropdown-menu
+          %li
+            %a{:href => "#"}
+              Courses Your In
+            %ul.dropdown-menu.sub-menu
+              - @users.each do |user|
+                - if user.id == current_user.id
+                  - user.coursesIn.each do |courseIn|
+                    %li= link_to courseIn.name, courseIn
+          %li.divider
+          %li
+            %a{:href => "#"}
+              Other Courses
+            %ul.dropdown-menu.sub-menu
+              - @users.each do |user|
+                - if user.id == current_user.id
+                  - user.coursesNotIn.each do |courseNotIn|
+                    %li= link_to courseNotIn.name, courseNotIn
 
-  %li= link_to 'Schools', schools_url 
-  %li= link_to "Sign out", destroy_user_session_path, method: :delete
+      %li= link_to 'Schools', schools_url 
+      %li= link_to "Sign out", destroy_user_session_path, method: :delete
 
 
-%strong Courses You're in:
-%br
-%table.table.table-bordered.container-fluid
-  %thead
-    %tr
-      %td Course name:
-      %td Course number:
-      %td School:
-  
-  %tbody
-    - @users.each do |user|
-      - if user.id == current_user.id
-        - user.coursesIn.each do |course|
-          %tr
-            %td= link_to course.name, course
-            %td= course.number
-            - @schools.each do |school|
-              - if course.school_id == school.id
-                %td= school.name
-%br
-%strong Other courses in the University:
-%br
-%table{:class => "container-fluid table table-bordered"}
-  %thead
-    %tr
-      %td Course name:
-      %td Course number:
-      %td School:
-
-  %tbody
-    - @users.each do |user|
-      - if user.id == current_user.id
-        - user.coursesNotIn.each do |course|
-          %tr
-            %td= link_to course.name, course
-            %td= course.number
-            - @schools.each do |school|
-              - if course.school_id == school.id && school.domain == current_user.domain
-                %td= school.name
+    %strong Courses You're in:
+    %br
+    %table.table.table-bordered.container-fluid.opaque-back
+      %thead
+        %tr
+          %td Course name:
+          %td Course number:
+          %td School:
+      %tbody
+        - @users.each do |user|
+          - if user.id == current_user.id
+            - user.coursesIn.each do |course|
+              %tr
+                %td= link_to course.name, course
+                %td= course.number
+                - @schools.each do |school|
+                  - if course.school_id == school.id
+                    %td= school.name
+    %br
+    %strong Other courses in the University:
+    %br
+    %table{:class => "container-fluid table table-bordered"}
+      %thead
+        %tr
+          %td Course name:
+          %td Course number:
+          %td School:
+      %tbody
+        - @users.each do |user|
+          - if user.id == current_user.id
+            - user.coursesNotIn.each do |course|
+              %tr
+                %td= link_to course.name, course
+                %td= course.number
+                - @schools.each do |school|
+                  - if course.school_id == school.id && school.domain == current_user.domain
+                    %td= school.name

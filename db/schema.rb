@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151126014746) do
+ActiveRecord::Schema.define(version: 20151130224231) do
 
   create_table "courses", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20151126014746) do
     t.integer  "domain"
     t.text     "coursesIn"
     t.text     "coursesNotIn"
+    t.boolean  "sentMail"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

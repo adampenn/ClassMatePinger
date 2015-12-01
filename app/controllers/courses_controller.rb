@@ -27,6 +27,11 @@ class CoursesController < ApplicationController
   # GET /courses/1/edit
   def edit
   end
+  
+  def email_user(to, course)
+    UserNotifier.ping_user(to).deliver
+    redirect_to(course)
+  end
 
   # POST /courses
   # POST /courses.json

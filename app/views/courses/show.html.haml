@@ -29,11 +29,12 @@
   %li= link_to "Sign out", destroy_user_session_path, method: :delete
 
 %h1= @course.name
-- @users.each do |user|
-  - if user.coursesIn.include?(@course) && user.id == current_user.id
+- @users.each do |myuser|
+  - if myuser.coursesIn.include?(@course) && myuser.id == current_user.id
+    
     %strong Other students in this course:
     %br
-    %table{:class => "container-fluid table table-bordered"}
+    %table.container-fluid.table.table-bordered
       %tbody
         - @user_courses.each do |user_course|
           - if user_course.course_id == @course.id
@@ -41,11 +42,11 @@
               - if user_course.user_id == user.id
                 %tr
                   %td= user.name
-                  %td= link_to 'Ping User'
+                  %td= link_to 'E-Mail', 
     - @user_courses.each do |user_course|
       - if user_course.course_id == @course.id && user_course.user_id == current_user.id
-        = button_to 'Drop Course', user_course, method: :delete, data: { confirm: 'Are you sure you want to drop this course?' }
-  - elsif !user.coursesIn.include?(@course) && user.id == current_user.id
+        = link_to 'Drop Course'
+  - elsif !myuser.coursesIn.include?(@course) && myuser.id == current_user.id
     %strong Would you like to add this course?
     = form_for(@user_course) do |f|
       = f.hidden_field :user_id, :value => current_user.id

@@ -1,36 +1,36 @@
-%ul{:class => "nav nav-tabs"}
-  %li= link_to 'courses', courses_url
-  %li{:class => "active"}= link_to 'Schools', schools_url 
-  %li= link_to "Sign out", destroy_user_session_path, method: :delete
+%div.opaque-back.container-fluid
+  %ul.nav.nav-tabs
+    %li= link_to 'courses', courses_url
+    %li.active= link_to 'Schools', schools_url 
+    %li= link_to "Sign out", destroy_user_session_path, method: :delete
 
-%p
-  %h1= @school.name
-%table.table.table-bordered.container-fluid
-  %thead 
-    %tr
-      %td Name
-      %td{:colspan => "2"} Option
-  %tbody
-    - @courses.each do |course|
-      - if course.school_id == @school.id
-        %tr
-          %td= course.name
-          %td= link_to 'Edit', edit_course_path(course)
-          %td= link_to 'Destroy', course, method: :delete, data: { confirm: '    Are you sure?' }
+  %p
+    %h1= @school.name
+  %table.table.table-bordered.container-fluid
+    %thead 
+      %tr
+        %td Name
+        %td{:colspan => "2"} Options
+    %tbody
+      - @courses.each do |course|
+        - if course.school_id == @school.id
+          %tr
+            %td= link_to course.name, course
+            %td= link_to 'Edit', edit_course_path(course)
+            %td= link_to 'Destroy', course, method: :delete, data: { confirm: '    Are you sure?' }
 
-%p
-  %strong New Course:
-  = form_for @course do |f|
-    .field
-      = f.label :name
-      %b
-      = f.text_field :name
-    .field
-      = f.label :number
-      %b
-      = f.number_field :number
-    = f.hidden_field :school_id, :value => @school.id
-    .action
-      = f.submit
+  %p
+    %strong New Course:
+    = form_for @course do |f|
+      .field
+        = f.label :name
+        %b
+        = f.text_field :name
+      .field
+        = f.label :number
+        %b
+        = f.number_field :number
+      = f.hidden_field :school_id, :value => @school.id
+      .action
+        = f.submit
 
-= link_to 'Back', schools_path

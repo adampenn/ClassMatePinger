@@ -1,22 +1,22 @@
-%ul{:class => "nav nav-tabs"}
-  %li= link_to 'courses', courses_url
-  %li{:class => "active"}= link_to 'Schools', schools_url 
-  %li= link_to "Sign out", destroy_user_session_path, method: :delete
+%div.opaque-back.container-fluid
+  %ul{:class => "nav nav-tabs"}
+    %li= link_to 'courses', courses_url
+    %li{:class => "active"}= link_to 'Schools', schools_url 
+    %li= link_to "Sign out", destroy_user_session_path, method: :delete
 
-%h1 Listing Schools
-%table.table.table-bordered.container-fluid
-  %thead
-    %tr
-      %th Name
-      %th{:colspan => "3"} Options
-  %tbody
-    - @schools.each do |school|
+  %h1 Listing Schools
+  %table.table.table-bordered.container-fluid
+    %thead
       %tr
-        %td= school.name
-        %td= link_to 'Show', school
-        %td= link_to 'Edit', edit_school_path(school)
-        %td= link_to 'Destroy', school, method: :delete, data: { confirm: '    Are you sure?' }
-%br
-  = link_to 'New School', new_school_path
-  |
-  = link_to 'Courses', courses_url
+        %td Name
+        %td{:colspan => "2"} Options
+    %tbody
+      - @schools.each do |school|
+        %tr
+          %td= link_to school.name, school
+          %td= link_to 'Edit', edit_school_path(school)
+          %td= link_to 'Destroy', school, method: :delete, data: { confirm: '    Are you sure?' }
+  %br
+  %div{:style => "padding-bottom: 15px;"}
+    = button_to 'New School', new_school_path
+    = button_to 'Courses', courses_url

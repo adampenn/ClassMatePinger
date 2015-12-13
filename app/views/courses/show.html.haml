@@ -1,56 +1,57 @@
-%ul.nav.nav-tabs
-  %li.dropdown.active
-    =link_to "Courses", courses_url
-    %ul#menu1.dropdown-menu
-      %li
-        %a{:href => "#"}
-          Courses Your In
-        %ul.dropdown-menu.sub-menu
-          - @users.each do |user|
-            - if user.id == current_user.id
-              - user.coursesIn.each do |courseIn|
-                - if courseIn.id == @course.id
-                  %li.active= link_to courseIn.name, courseIn
-                - else
-                  %li= link_to courseIn.name, courseIn
-      %li.divider
-      %li
-        %a{:href => "#"}
-          Other Courses
-        %ul.dropdown-menu.sub-menu
-          - @users.each do |user|
-            - if user.id == current_user.id
-              - user.coursesNotIn.each do |courseNotIn|
-                - if courseNotIn.id == @course.id
-                  %li.active= link_to courseNotIn.name, courseNotIn
-                - else
-                  %li= link_to courseNotIn.name, courseNotIn
-  %li= link_to 'Schools', schools_url 
-  %li= link_to "Sign out", destroy_user_session_path, method: :delete
-
-%h1= @course.name
-- @users.each do |myuser|
-  - if myuser.coursesIn.include?(@course) && myuser.id == current_user.id
-    
-    %strong Other students in this course:
-    %br
-    %table.container-fluid.table.table-bordered
-      %tbody
-        - @user_courses.each do |user_course|
-          - if user_course.course_id == @course.id
+%div.opaque-back.container-fluid
+  %ul.nav.nav-tabs
+    %li.dropdown.active
+      =link_to "Courses", courses_url
+      %ul#menu1.dropdown-menu
+        %li
+          %a{:href => "#"}
+            Courses Your In
+          %ul.dropdown-menu.sub-menu
             - @users.each do |user|
-              - if user_course.user_id == user.id
-                %tr
-                  %td= user.name
-                  %td= link_to 'E-Mail'
-    - @user_courses.each do |user_course|
-      - if user_course.course_id == @course.id && user_course.user_id == current_user.id
-        = link_to 'Drop Course'
-  - elsif !myuser.coursesIn.include?(@course) && myuser.id == current_user.id
-    %strong Would you like to add this course?
-    = form_for(@user_course) do |f|
-      = f.hidden_field :user_id, :value => current_user.id
-      = f.hidden_field :course_id, :value => @course.id
+              - if user.id == current_user.id
+                - user.coursesIn.each do |courseIn|
+                  - if courseIn.id == @course.id
+                    %li.active= link_to courseIn.name, courseIn
+                  - else
+                    %li= link_to courseIn.name, courseIn
+        %li.divider
+        %li
+          %a{:href => "#"}
+            Other Courses
+          %ul.dropdown-menu.sub-menu
+            - @users.each do |user|
+              - if user.id == current_user.id
+                - user.coursesNotIn.each do |courseNotIn|
+                  - if courseNotIn.id == @course.id
+                    %li.active= link_to courseNotIn.name, courseNotIn
+                  - else
+                    %li= link_to courseNotIn.name, courseNotIn
+    %li= link_to 'Schools', schools_url 
+    %li= link_to "Sign out", destroy_user_session_path, method: :delete
+
+  %h1= @course.name
+  - @users.each do |myuser|
+    - if myuser.coursesIn.include?(@course) && myuser.id == current_user.id
+    
+      %strong Other students in this course:
       %br
-      .actions
-        = f.submit "Join Course"
+      %table.container-fluid.table.table-bordered
+        %tbody
+          - @user_courses.each do |user_course|
+            - if user_course.course_id == @course.id
+              - @users.each do |user|
+                - if user_course.user_id == user.id
+                  %tr
+                    %td= user.name
+                    %td= link_to 'E-Mail'
+      - @user_courses.each do |user_course|
+        - if user_course.course_id == @course.id && user_course.user_id == current_user.id
+          = button_to 'Drop Course'
+    - elsif !myuser.coursesIn.include?(@course) && myuser.id == current_user.id
+      %strong Would you like to add this course?
+      = form_for(@user_course) do |f|
+        = f.hidden_field :user_id, :value => current_user.id
+        = f.hidden_field :course_id, :value => @course.id
+        %br
+        %div{:style => "padding-bottom: 15px;"}
+          = f.submit "Join Course"
